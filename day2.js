@@ -30,3 +30,4 @@ for(i=0;i<array.length;i++){
 		data_array[array[i][3]] = data_array[array[i][1]]*data_array[array[i][2]]}
 	else if(array[i][0]==99){break};
 }
+hi hi
