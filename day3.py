@@ -40,7 +40,6 @@ def crosspoint_finder(data_a,data_b):
     distances = []
     for a_line in data_a:
         for  b_line in data_b:
-                point = []
                 ax1=a_line[0][0]
                 ax2=a_line[1][0]
                 ay1=a_line[0][1]
@@ -80,7 +79,6 @@ def step_counter(data, intersection_points):
     for points in intersection_points:
         x_cumulative = 0
         y_cumulative = 0
-        met=False
         for line in data:
             pointx=points[0]
             pointy=points[1]
@@ -91,7 +89,6 @@ def step_counter(data, intersection_points):
             if (x1<=pointx<=x2 or x1>=pointx>=x2) and (y1<=pointy<=y2 or y1>=pointy>=y2):
                 x_cumulative +=abs(pointx-x1)
                 y_cumulative +=abs(pointy-y1)
-                met=True
                 break 
             else:
                 x_cumulative += abs(x2-x1)
