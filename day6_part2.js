@@ -1,7 +1,7 @@
 // data wrangling
-// data =$("pre").innerHTML.split("\n");
-data = "COM)B\nB)C\nC)D\nD)E\nE)F\nB)G\nG)H\nD)I\nE)J\nJ)K\nK)L\nK)YOU\nI)SAN"
-data = data.split("\n")
+data =$("pre").innerHTML.split("\n");
+// data = "COM)B\nB)C\nC)D\nD)E\nE)F\nB)G\nG)H\nD)I\nE)J\nJ)K\nK)L\nK)YOU\nI)SAN"
+// data = data.split("\n")
 data_array =[];
 data.forEach(function(each) {
     data_array.push(each.split(")"))})
@@ -60,15 +60,39 @@ function getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key] === arrayFinder(object[key],value));
   }
 
-youParents = [] 
-starter = "YOU"
-endReached = false 
-while(endReached == false){
-    addKey = (getKeyByValue(dict,starter));
-    youParents.push(addKey)
-    starter = addKey;
-    if(starter == "COM"){
-        endReached = true
+
+
+function santaMeFinder(starter, parents_array){
+    endReached = false 
+    while(endReached == false){
+        addKey = (getKeyByValue(dict,starter));
+        parents_array.push(addKey)
+        starter = addKey;
+        if(starter == "COM"){
+            endReached = true
+        }
     }
 }
-        
+youParents = [] 
+    santaMeFinder("YOU",youParents)
+sanParents = []
+    santaMeFinder("SAN",sanParents)
+y_location = 0
+s_location = 0
+breaker = false
+for(y = 0; y<youParents.length;y++){
+    for(s = 0;s<sanParents.length;s++){
+        if(youParents[y]==sanParents[s]){
+            y_location = y;
+            s_location = s;
+            breaker = true
+        }
+        if(breaker==true){
+            break
+        }
+    }
+    if(breaker == true){
+        break
+    }
+}
+console.log(y_location, s_location, y_location+s_location)
