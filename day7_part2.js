@@ -1,18 +1,12 @@
 // data prep 
-data =$("pre").innerHTML.split(",");
-data_array =[];
-data.forEach(function(each) {
-    data_array.push(parseInt(each))});
-// day5 code 
+// data =$("pre").innerHTML.split(",");
+// data_array =[];
+// data.forEach(function(each) {
+//     data_array.push(parseInt(each))});
 
-// test = [1,9,10,3,2,3,11,0,99,30,40,50]
-test = data_array;
-// test=[1101,100,-1,4,0]
-// test = [3,3,1105,-1,9,1101,0,0,12,4,12,99,1]
-// test = [3,3,1107,-1,8,3,4,3,99]
-// test = [3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,
-//     1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,
-//     999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99]
+// test = data_array;
+// test =[3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0]
+test =[3,9,8,9,10,9,4,9,99,-1,8]
 function OpCode(opcode){
     opcode_array= opcode.toString().split("").map(Number);
     x = 5 - opcode_array.length
@@ -23,7 +17,7 @@ function OpCode(opcode){
     return opcode_array;
 }
 opcode_4 = []
-function OpCode_Function(opcode_array,i){
+function OpCode_Function(opcode_array,i,input_3){
     f1=0;
     f2=0;
     if(opcode_array[4]==1){
@@ -53,7 +47,7 @@ function OpCode_Function(opcode_array,i){
         f = f1*f2
         return f
     } else if(opcode_array[4]==3){
-        f1 = parseInt(prompt("enter input:"));
+        f1 = input_3;
         return f1
     }  else if(opcode_array[4]==4){
         if(opcode_array[2]==1){
@@ -137,31 +131,49 @@ function OpCode_Function(opcode_array,i){
         console.log("I'm broken")
     }
 }
-var i = 0;
-looper = false
-while((looper==false)&&(i<test.length)){
-    opcode_array = OpCode(test[i]);
-    if(opcode_array[4]==1 || opcode_array[4]==2){
-        test[test[i+3]]= OpCode_Function(opcode_array,i);
-        i=i+4;
-    }else if(opcode_array[4]==3){
-        test[test[i+1]]=OpCode_Function(opcode_array,i);
-        i=i+2;
-    } else if(opcode_array[4]==4){
-        opcode_4.push(OpCode_Function(opcode_array,i));
-        i=i+2;
-    }else if(opcode_array[4]==5 || opcode_array[4]==6 ){
-        i = OpCode_Function(opcode_array,i);
-    }else if(opcode_array[4]==7 || opcode_array[4]==8 ){
-        test[test[i+3]] = OpCode_Function(opcode_array,i);
-        i=i+4;
-    }else if(opcode_array[4]==9 && opcode_array[3]==9){
-        looper=true;
-        console.log(opcode_4)
-        break;
-    }else{
-        looper=true;
-        break;
-    };
+
+
+async function intcode(input,starting_input,opcode_answer){
+    try{
+        var i = 0;
+        looper = false
+        input_counter = 0
+        while((looper==false)&&(i<input.length)){
+            input_3 = starting_input[input_counter];
+            console.log(input_3,starting_input);
+            opcode_array = await OpCode(input[i]);
+            if(opcode_array[4]==1 || opcode_array[4]==2){
+                input[input[i+3]]= await OpCode_Function(opcode_array,i,input_3);
+                i=i+4;
+            }else if(opcode_array[4]==3){
+                input[input[i+1]]= await OpCode_Function(opcode_array,i,input_3);
+                i=i+2;
+                input_counter += 1;
+                console.log("YOU HIT ME (3)")
+            } else if(opcode_array[4]==4){
+                await opcode_answer.push(OpCode_Function(opcode_array,i,input_3));
+                i=i+2;
+            }else if(opcode_array[4]==5 || opcode_array[4]==6 ){
+                i = await OpCode_Function(opcode_array,i);
+            }else if(opcode_array[4]==7 || opcode_array[4]==8 ){
+                input[input[i+3]] = await OpCode_Function(opcode_array,i,input_3);
+                i=i+4;
+            }else if(opcode_array[4]==9 && opcode_array[3]==9){
+                looper=true;
+                console.log(opcode_answer)
+                break;
+            }else{
+                looper=true;
+                break;
+            };
+        }
+        return opcode_answer
+    }catch(error){
+        alert(error)
+    }
 }
 
+dupe_array =test.map((x)=>x)
+results =[]
+intcode(dupe_array,[8],results).then(result);
+console.log(result)
