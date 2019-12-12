@@ -1,9 +1,9 @@
 // data prep 
-data =$("pre").innerHTML.split(",");
-data_array =[];
-data.forEach(function(each) {
-    data_array.push(parseInt(each))});
-test = data_array
+// data =$("pre").innerHTML.split(",");
+// data_array =[];
+// data.forEach(function(each) {
+//     data_array.push(parseInt(each))});
+// test = data_array
 // input = data_array;
 // input =[3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0]
 // test =[3,9,8,9,10,9,4,9,99,-1,8]
